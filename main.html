@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Serial Loan Payments</title>
+  </head>
+  <body>
+    <h1>Serial Loan Payments</h1>
+    <p>Enter loan details:</p>
+    <label for="loan-amount">Loan amount:</label>
+    <input type="number" id="loan-amount" value="300000">
+    <br>
+    <label for="loan-term">Loan term in years:</label>
+    <input type="number" id="loan-term" value="25">
+    <br>
+    <label for="nominal-rate">Nominal interest rate:</label>
+    <input type="number" id="nominal-rate" step="0.01" value="0.012">
+    <br>
+    <button onclick="calculateSerialLoanPayments()">Calculate</button>
+    <br>
+    <table id="loan-table">
+      <tr>
+        <th>Month</th>
+        <th>Monthly Payment</th>
+        <th>Interest Payment</th>
+        <th>Principal Payment</th>
+        <th>Remaining Balance</th>
+        <th>Total Payments</th>
+      </tr>
+    </table>
+    <script>
+      function calculateSerialLoanPayments() {
+        var loanAmount = parseFloat(document.getElementById('loan-amount').value);
+        var loanTerm = parseInt(document.getElementById('loan-term').value);
+        var nominalRate = parseFloat(document.getElementById('nominal-rate').value);
+        var tableElement = document.getElementById('loan-table');
+
+        // Clear table rows
+        while (tableElement.rows.length > 1) {
+          tableElement.deleteRow(-1);
+        }
+
+        var remainingBalance = loanAmount;
+        var interestRatePerMonth = nominalRate / 12;
+        var result = [];
+        var totalPayments = 0;
+
+        for (var month = 1; month <= loanTerm * 12; month++) {
+          var principalPayment = loanAmount / (loanTerm * 12);
+          var interestPayment = remainingBalance * interestRatePerMonth;
+          var monthlyPayment = principalPayment + interestPayment;
+          totalPayments += monthlyPayment;
+          remainingBalance -= principalPayment;
+
+          result.push({
+            month: month,
+            monthlyPayment: monthlyPayment,
+            interestPayment: interestPayment,
+            principalPayment: principalPayment,
+            remainingBalance: remainingBalance,
+            totalPayments: totalPayments,
+          });
+        }
+
+        // Fill in table rows
+        result.forEach(function(payment) {
+          var row = tableElement.insertRow(-1);
+          var monthTd = row.insertCell(0);
+          monthTd.textContent = payment.month;
+          var monthlyPaymentTd = row.insertCell(1);
+          monthlyPaymentTd.textContent = payment.monthlyPayment.toFixed(2);
+          var interestPaymentTd = row.insertCell(2);
+          interestPaymentTd.textContent = payment.interestPayment.toFixed(2);
+          var principalPaymentTd = row.insertCell(3);
+          principalPaymentTd.textContent = payment.principalPayment.toFixed(2);
+          var remainingBalanceTd = row.insertCell(4);
+          remainingBalanceTd.textContent = payment.remainingBalance.toFixed(2);
+          var totalPaymentsTd = row.insertCell(5);
+          totalPaymentsTd.textContent = payment.totalPayments.toFixed(2);
+        });
+      }
+    </script>
+  </body>
+</html>
