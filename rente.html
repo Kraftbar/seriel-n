@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Rates Plot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chart-container {
+            width: 100%;
+            height: 500px;
+        }
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="chart-container"></div>
+    <script>
+        const interestRatesData = [
+{"date": "10.01.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "21.02.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "04.04.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "16.05.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "20.06.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "08.08.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "19.09.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "31.10.2001", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "12.12.2001", "policyRate": 6.50, "overnightLendingRate": 8.50, "reserveRate":  0    },
+{"date": "23.01.2002", "policyRate": 6.50, "overnightLendingRate": 8.50, "reserveRate":  0    },
+{"date": "27.02.2002", "policyRate": 6.50, "overnightLendingRate": 8.50, "reserveRate":  0    },
+{"date": "10.04.2002", "policyRate": 6.50, "overnightLendingRate": 8.50, "reserveRate":  0    },
+{"date": "22.05.2002", "policyRate": 6.50, "overnightLendingRate": 8.50, "reserveRate":  0    },
+{"date": "03.07.2002", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "07.08.2002", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "18.09.2002", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "30.10.2002", "policyRate": 7.00, "overnightLendingRate": 9.00, "reserveRate":  0    },
+{"date": "11.12.2002", "policyRate": 6.50, "overnightLendingRate": 8.50, "reserveRate":  0    },
+{"date": "22.01.2003", "policyRate": 6.00, "overnightLendingRate": 8.00, "reserveRate":  0    },
+{"date": "05.03.2003", "policyRate": 5.50, "overnightLendingRate": 7.50, "reserveRate":  0    },
+{"date": "30.04.2003", "policyRate": 5.00, "overnightLendingRate": 7.00, "reserveRate":  0    },
+{"date": "25.06.2003", "policyRate": 4.00, "overnightLendingRate": 6.00, "reserveRate":  0    },
+{"date": "13.08.2003", "policyRate": 3.00, "overnightLendingRate": 5.00, "reserveRate":  0    },
+{"date": "17.09.2003", "policyRate": 2.50, "overnightLendingRate": 4.50, "reserveRate":  0    },
+{"date": "29.10.2003", "policyRate": 2.50, "overnightLendingRate": 4.50, "reserveRate":  0    },
+{"date": "17.12.2003", "policyRate": 2.25, "overnightLendingRate": 4.25, "reserveRate":  0    },
+{"date": "28.01.2004", "policyRate": 2.00, "overnightLendingRate": 4.00, "reserveRate":  0    },
+{"date": "11.03.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "21.04.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "26.05.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "01.07.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "11.08.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "22.09.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "03.11.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "15.12.2004", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "02.02.2005", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "16.03.2005", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "20.04.2005", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "25.05.2005", "policyRate": 1.75, "overnightLendingRate": 3.75, "reserveRate":  0    },
+{"date": "30.06.2005", "policyRate": 2.00, "overnightLendingRate": 4.00, "reserveRate":  0    },
+{"date": "11.08.2005", "policyRate": 2.00, "overnightLendingRate": 4.00, "reserveRate":  0    },
+{"date": "21.09.2005", "policyRate": 2.00, "overnightLendingRate": 4.00, "reserveRate":  0    },
+{"date": "02.11.2005", "policyRate": 2.25, "overnightLendingRate": 4.25, "reserveRate":  0    },
+{"date": "14.12.2005", "policyRate": 2.25, "overnightLendingRate": 4.25, "reserveRate":  0    },
+{"date": "25.01.2006", "policyRate": 2.25, "overnightLendingRate": 4.25, "reserveRate":  0    },
+{"date": "16.03.2006", "policyRate": 2.50, "overnightLendingRate": 4.50, "reserveRate":  0    },
+{"date": "26.04.2006", "policyRate": 2.50, "overnightLendingRate": 4.50, "reserveRate":  0    },
+{"date": "31.05.2006", "policyRate": 2.75, "overnightLendingRate": 4.75, "reserveRate":  0    },
+{"date": "29.06.2006", "policyRate": 2.75, "overnightLendingRate": 4.75, "reserveRate":  0    },
+{"date": "16.08.2006", "policyRate": 3.00, "overnightLendingRate": 5.00, "reserveRate":  0    },
+{"date": "27.09.2006", "policyRate": 3.00, "overnightLendingRate": 5.00, "reserveRate":  0    },
+{"date": "01.11.2006", "policyRate": 3.25, "overnightLendingRate": 5.25, "reserveRate":  0    },
+{"date": "13.12.2006", "policyRate": 3.50, "overnightLendingRate": 5.50, "reserveRate":  0    },
+{"date": "24.01.2007", "policyRate": 3.75, "overnightLendingRate": 5.75, "reserveRate":  0    },
+{"date": "15.03.2007", "policyRate": 4.00, "overnightLendingRate": 5.00, "reserveRate":  0    },
+{"date": "25.04.2007", "policyRate": 4.00, "overnightLendingRate": 5.00, "reserveRate":  0    },
+{"date": "30.05.2007", "policyRate": 4.25, "overnightLendingRate": 5.25, "reserveRate":  0    },
+{"date": "27.06.2007", "policyRate": 4.50, "overnightLendingRate": 5.50, "reserveRate":  0    },
+{"date": "15.08.2007", "policyRate": 4.75, "overnightLendingRate": 5.75, "reserveRate":  0    },
+{"date": "26.09.2007", "policyRate": 5.00, "overnightLendingRate": 6.00, "reserveRate":  0    },
+{"date": "31.10.2007", "policyRate": 5.06, "overnightLendingRate": 6.00, "reserveRate":  0    },
+{"date": "12.12.2007", "policyRate": 5.25, "overnightLendingRate": 6.25, "reserveRate":  0    },
+{"date": "23.01.2008", "policyRate": 5.25, "overnightLendingRate": 6.25, "reserveRate":  0    },
+{"date": "13.03.2008", "policyRate": 5.25, "overnightLendingRate": 6.25, "reserveRate":  0    },
+{"date": "23.04.2008", "policyRate": 5.50, "overnightLendingRate": 6.50, "reserveRate":  0    },
+{"date": "28.05.2008", "policyRate": 5.50, "overnightLendingRate": 6.50, "reserveRate":  0    },
+{"date": "25.06.2008", "policyRate": 5.75, "overnightLendingRate": 6.75, "reserveRate":  0    },
+{"date": "13.08.2008", "policyRate": 5.75, "overnightLendingRate": 6.75, "reserveRate":  0    },
+{"date": "24.09.2008", "policyRate": 5.75, "overnightLendingRate": 6.75, "reserveRate":  0    },
+{"date": "15.10.2008", "policyRate": 5.25, "overnightLendingRate": 6.25, "reserveRate":  0    },
+{"date": "29.10.2008", "policyRate": 4.75, "overnightLendingRate": 5.75, "reserveRate":  0    },
+{"date": "17.12.2008", "policyRate": 3.00, "overnightLendingRate": 4.00, "reserveRate":  0    },
+{"date": "04.02.2009", "policyRate": 2.50, "overnightLendingRate": 3.50, "reserveRate":  0    },
+{"date": "25.03.2009", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "06.05.2009", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0    },
+{"date": "17.06.2009", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0    },
+{"date": "12.08.2009", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0    },
+{"date": "23.09.2009", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0    },
+{"date": "28.10.2009", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0    },
+{"date": "16.12.2009", "policyRate": 1.75, "overnightLendingRate": 2.75, "reserveRate":  0    },
+{"date": "03.02.2010", "policyRate": 1.75, "overnightLendingRate": 2.75, "reserveRate":  0    },
+{"date": "24.03.2010", "policyRate": 1.75, "overnightLendingRate": 2.75, "reserveRate":  0    },
+{"date": "05.05.2010", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "23.06.2010", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "11.08.2010", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "22.09.2010", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "27.10.2010", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "15.12.2010", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "26.01.2011", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "16.03.2011", "policyRate": 2.00, "overnightLendingRate": 3.00, "reserveRate":  0    },
+{"date": "12.05.2011", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  0    },
+{"date": "22.06.2011", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  0    },
+{"date": "10.08.2011", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  0    },
+{"date": "21.09.2011", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  0    },
+{"date": "19.10.2011", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  1.25 },
+{"date": "14.12.2011", "policyRate": 1.75, "overnightLendingRate": 2.75, "reserveRate":  0.75 },
+{"date": "14.03.2012", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "10.05.2012", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "20.06.2012", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "29.08.2012", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "31.10.2012", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "19.12.2012", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "14.03.2013", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "08.05.2013", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "20.06.2013", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "19.09.2013", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "24.10.2013", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "05.12.2013", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "27.03.2014", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "08.05.2014", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "19.06.2014", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "18.09.2014", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "23.10.2014", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "11.12.2014", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "19.03.2015", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "07.05.2015", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "18.06.2015", "policyRate": 1.00, "overnightLendingRate": 2.00, "reserveRate":  0.00 },
+{"date": "24.09.2015", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "05.11.2015", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "17.12.2015", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "17.03.2016", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "12.05.2016", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "23.06.2016", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "22.09.2016", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "27.10.2016", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "15.12.2016", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "16.03.2017", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "04.05.2017", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "22.06.2017", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "21.09.2017", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "26.10.2017", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "14.12.2017", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "25.01.2018", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "15.03.2018", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "03.05.2018", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "21.06.2018", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "16.08.2018", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "20.09.2018", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "25.10.2018", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "13.12.2018", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "24.01.2019", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "21.03.2019", "policyRate": 1.00, "overnightLendingRate": 2.00, "reserveRate":  0.00 },
+{"date": "09.05.2019", "policyRate": 1.00, "overnightLendingRate": 2.00, "reserveRate":  0.00 },
+{"date": "20.06.2019", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "15.08.2019", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "19.09.2019", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "24.10.2019", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "19.12.2019", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "23.01.2020", "policyRate": 1.50, "overnightLendingRate": 2.50, "reserveRate":  0.50 },
+{"date": "13.03.2020", "policyRate": 1.00, "overnightLendingRate": 2.00, "reserveRate":  0.00 },
+{"date": "20.03.2020", "policyRate": 0.25, "overnightLendingRate": 1.25, "reserveRate": -0.75},
+{"date": "07.05.2020", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "18.06.2020", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "20.08.2020", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "24.09.2020", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "05.11.2020", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "17.12.2020", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "21.01.2021", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "18.03.2021", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "06.05.2021", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "17.06.2021", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "19.08.2021", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "23.09.2021", "policyRate": 0.25, "overnightLendingRate": 1.25, "reserveRate": -0.75},
+{"date": "04.11.2021", "policyRate": 0.25, "overnightLendingRate": 1.25, "reserveRate": -0.75},
+{"date": "16.12.2021", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "20.01.2022", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "24.03.2022", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "05.05.2022", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "23.06.2022", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "18.08.2022", "policyRate": 1.75, "overnightLendingRate": 2.75, "reserveRate":  0.75 },
+{"date": "22.09.2022", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  1.25 },
+{"date": "03.11.2022", "policyRate": 2.50, "overnightLendingRate": 3.50, "reserveRate":  1.50 },
+{"date": "15.12.2022", "policyRate": 2.75, "overnightLendingRate": 3.75, "reserveRate":  1.75 },
+{"date": "19.01.2023", "policyRate": 2.75, "overnightLendingRate": 3.75, "reserveRate":  1.75 },
+{"date": "23.03.2023", "policyRate": 3.00, "overnightLendingRate": 4.00, "reserveRate":  2.00 },
+    ];
+
+        const dates = interestRatesData.map(data => data.date);
+        const policyRates = interestRatesData.map(data => data.policyRate);
+        const overnightLendingRates = interestRatesData.map(data => data.overnightLendingRate);
+        const reserveRates = interestRatesData.map(data => data.reserveRate);
+
+        const data = [
+            {x: dates, y: policyRates, mode: 'lines',           line : {"shape": 'hv'}, name: 'Policy Rate'},
+            {x: dates, y: overnightLendingRates, mode: 'lines', line : {"shape": 'hv'}, name: 'Overnight Lending Rate'},
+            {x: dates, y: reserveRates, mode: 'lines',          line : {"shape": 'hv'}, name: 'Reserve Rate'},
+        ];
+  
+
+        const layout = {
+            title: 'Interest Rates',
+            xaxis: {title: 'Date'},
+            yaxis: {title: 'Interest Rate (%)'},
+            showlegend: true
+        };
+
+        Plotly.newPlot('chart-container', data, layout);
+    </script>
+</body>
+</html>
