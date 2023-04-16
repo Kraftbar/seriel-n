@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Loan Payment Table</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Payment Date</th>
+			<th>Principal</th>
+			<th>Interest</th>
+			<th>Monthly Payment</th>
+			<th>Loan Balance</th>
+		</tr>
+		<script>
+		// todo: does not print last line 
+const interestRatesData = [
+{"date": "2020-06-18", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2020-08-20", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2020-09-24", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2020-11-05", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2020-12-17", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2021-01-21", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2021-03-18", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2021-05-06", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2021-06-17", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2021-08-19", "policyRate": 0.00, "overnightLendingRate": 1.00, "reserveRate": -1.00},
+{"date": "2021-09-23", "policyRate": 0.25, "overnightLendingRate": 1.25, "reserveRate": -0.75}, // if rate is
+{"date": "2021-11-04", "policyRate": 0.25, "overnightLendingRate": 1.25, "reserveRate": -0.75},
+{"date": "2021-12-16", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "2022-01-20", "policyRate": 0.50, "overnightLendingRate": 1.50, "reserveRate": -0.50},
+{"date": "2022-03-24", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "2022-05-05", "policyRate": 0.75, "overnightLendingRate": 1.75, "reserveRate": -0.25},
+{"date": "2022-06-23", "policyRate": 1.25, "overnightLendingRate": 2.25, "reserveRate":  0.25 },
+{"date": "2022-08-18", "policyRate": 1.75, "overnightLendingRate": 2.75, "reserveRate":  0.75 },
+{"date": "2022-09-22", "policyRate": 2.25, "overnightLendingRate": 3.25, "reserveRate":  1.25 },
+{"date": "2022-11-03", "policyRate": 2.50, "overnightLendingRate": 3.50, "reserveRate":  1.50 },
+{"date": "2022-12-15", "policyRate": 2.75, "overnightLendingRate": 3.75, "reserveRate":  1.75 },
+{"date": "2023-01-19", "policyRate": 2.75, "overnightLendingRate": 3.75, "reserveRate":  1.75 },
+{"date": "2023-03-23", "policyRate": 3.00, "overnightLendingRate": 4.00, "reserveRate":  2.00 },
+]
+
+// Define loan variables
+const dateIssued = new Date('2020-05-06');
+const monthlyPayment = 'serielån';
+const totalLoanAmount = 300000;
+const loanRuntimeYears = 25;
+const loanRuntimeMonths = loanRuntimeYears * 12;
+const monthlyInterestRates = [];
+
+// Calculate monthly interest rates
+let currentDate = new Date(dateIssued.getTime());
+for (let i = 0; i < loanRuntimeMonths; i++) {
+  const rateDataIndex = interestRatesData.findIndex(data => new Date(data.date) > currentDate);
+  const policyRate = rateDataIndex > 0 ? interestRatesData[rateDataIndex - 1].policyRate : interestRatesData[0].policyRate;
+  monthlyInterestRates.push(policyRate);
+  currentDate.setMonth(currentDate.getMonth() + 1);
+}
+
+// Calculate monthly payment and loan balance for each month
+const monthlyPaymentAmount = totalLoanAmount / loanRuntimeMonths;
+let loanBalance = totalLoanAmount;
+const paymentTable = document.createElement('table');
+const headerRow = paymentTable.insertRow();
+headerRow.insertCell().textContent = 'Payment Date';
+headerRow.insertCell().textContent = 'Principal';
+headerRow.insertCell().textContent = 'Interest';
+headerRow.insertCell().textContent = 'Monthly Payment';
+headerRow.insertCell().textContent = 'Loan Balance';
+headerRow.insertCell().textContent = 'rate';
+
+for (let i = 1; i <= loanRuntimeMonths; i++) {
+  const paymentDate = new Date(dateIssued.getTime());
+  paymentDate.setMonth(paymentDate.getMonth() + i);
+  const interestPayment = loanBalance * (monthlyInterestRates[i - 1] / 100 / 12);
+  const principalPayment = monthlyPayment === 'serielån' ? monthlyPaymentAmount : monthlyPaymentAmount + interestPayment;
+  const totalPayment = interestPayment + principalPayment;
+  loanBalance -= principalPayment;
+  const row = paymentTable.insertRow();
+  row.insertCell().textContent = paymentDate.toISOString().substring(0, 10);
+  row.insertCell().textContent = principalPayment.toFixed(2);
+  row.insertCell().textContent = interestPayment.toFixed(2);
+  row.insertCell().textContent = totalPayment.toFixed(2);
+  row.insertCell().textContent = loanBalance.toFixed(2);
+  row.insertCell().textContent = monthlyInterestRates[i ];
+}
+
+document.body.appendChild(paymentTable);
+
+		</script>
+	</table>
+</body>
+</html>
